@@ -21,19 +21,6 @@ def summary(message):
     try:
         wb = openpyxl.load_workbook(file_path)
         sheet = wb.worksheets[0]
-
-        for row in sheet.iter_rows(values_only=True):
-            row_data = ', '.join(map(str, row))
-            bot.send_message(message.chat.id, row_data)
-    except Exception as e:
-        bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
-
-@bot.message_handler(commands=['самарі'])
-def summary(message):
-    file_path = Path(__file__).parent / "infoua.xlsx"
-    try:
-        wb = openpyxl.load_workbook(file_path)
-        sheet = wb.worksheets[0]
         for row in sheet.iter_rows(values_only=True):
             row_data = ', '.join(map(str, row))
             bot.send_message(message.chat.id, row_data)
@@ -44,18 +31,6 @@ def summary(message):
 @bot.message_handler(commands=['academic'])
 def summary(message):
     file_path = Path(__file__).parent / "infoeng.xlsx"
-    try:
-        wb = openpyxl.load_workbook(file_path)
-        sheet = wb.worksheets[1]
-        for row in sheet.iter_rows(values_only=True):
-            row_data = ', '.join(map(str, row))
-            bot.send_message(message.chat.id, row_data)
-    except Exception as e:
-        bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
-
-@bot.message_handler(commands=['навчання'])
-def summary(message):
-    file_path = Path(__file__).parent / "infoua.xlsx"
     try:
         wb = openpyxl.load_workbook(file_path)
         sheet = wb.worksheets[1]
@@ -78,18 +53,6 @@ def summary(message):
     except Exception as e:
         bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
 
-@bot.message_handler(commands=['досвід'])
-def summary(message):
-    file_path = Path(__file__).parent / "infoua.xlsx"
-    try:
-        wb = openpyxl.load_workbook(file_path)
-        sheet = wb.worksheets[2]
-        for row in sheet.iter_rows(values_only=True):
-            row_data = ', '.join(map(str, row))
-            bot.send_message(message.chat.id, row_data)
-    except Exception as e:
-        bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
-
 
 @bot.message_handler(commands=['contact'])
 def summary(message):
@@ -103,17 +66,6 @@ def summary(message):
     except Exception as e:
         bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
 
-@bot.message_handler(commands=['контакти'])
-def summary(message):
-    file_path = Path(__file__).parent / "infoua.xlsx"
-    try:
-        wb = openpyxl.load_workbook(file_path)
-        sheet = wb.worksheets[3]
-        for row in sheet.iter_rows(values_only=True):
-            row_data = ', '.join(map(str, row))
-            bot.send_message(message.chat.id, row_data)
-    except Exception as e:
-        bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
 
 @bot.message_handler(commands=['info'])
 def main(message):
@@ -135,11 +87,11 @@ def site(message):
 def help(message):
     if message.text.lower() == 'допомога':
         bot.send_message(message.chat.id, '<b>За допомогою цих фраз я...</b>', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/самарі</em> - розповім що вмію', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/навчання</em> - розповім де вчився', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/досвід</em> - розповім свою професійну історію', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/контакти</em> - як зі мною звязатись', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/скачати</em> - вишлю ці данні вам на пошту', parse_mode='html')
+        bot.send_message(message.chat.id, '<em>самарі</em> - розповім що вмію', parse_mode='html')
+        bot.send_message(message.chat.id, '<em>навчання</em> - розповім де вчився', parse_mode='html')
+        bot.send_message(message.chat.id, '<em>досвід</em> - розповім свою професійну історію', parse_mode='html')
+        bot.send_message(message.chat.id, '<em>контакти</em> - як зі мною звязатись', parse_mode='html')
+        bot.send_message(message.chat.id, '<em>скачати</em> - Підготую документ для скачування', parse_mode='html')
     
     elif message.text.lower() == 'assistance':
         bot.send_message(message.chat.id, '<b>By using this comands I will ...</b>', parse_mode='html')
@@ -147,8 +99,52 @@ def help(message):
         bot.send_message(message.chat.id, '<em>/academic</em> - tell about my academic history', parse_mode='html')
         bot.send_message(message.chat.id, '<em>/experience</em> - tell you my сareer пrowth', parse_mode='html')
         bot.send_message(message.chat.id, '<em>/contact</em> - how to contack with me', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/export</em> - send CV by email', parse_mode='html')
-                 
+        bot.send_message(message.chat.id, '<em>/export</em> - prepare document for download', parse_mode='html')
+
+    elif message.text.lower() == 'самарі':
+        file_path = Path(__file__).parent / "infoua.xlsx"
+        try:
+            wb = openpyxl.load_workbook(file_path)
+            sheet = wb.worksheets[0]
+            for row in sheet.iter_rows(values_only=True):
+                row_data = ', '.join(map(str, row))
+                bot.send_message(message.chat.id, row_data)
+        except Exception as e:
+            bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
+
+    elif message.text.lower() == 'навчання':
+        file_path = Path(__file__).parent / "infoua.xlsx"
+        try:
+            wb = openpyxl.load_workbook(file_path)
+            sheet = wb.worksheets[1]
+            for row in sheet.iter_rows(values_only=True):
+                row_data = ', '.join(map(str, row))
+                bot.send_message(message.chat.id, row_data)
+        except Exception as e:
+            bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
+
+    elif message.text.lower() == 'досвід':
+        file_path = Path(__file__).parent / "infoua.xlsx"
+        try:
+            wb = openpyxl.load_workbook(file_path)
+            sheet = wb.worksheets[2]
+            for row in sheet.iter_rows(values_only=True):
+                row_data = ', '.join(map(str, row))
+                bot.send_message(message.chat.id, row_data)
+        except Exception as e:
+            bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
+
+    elif message.text.lower() == 'контакти':
+        file_path = Path(__file__).parent / "infoua.xlsx"
+        try:
+            wb = openpyxl.load_workbook(file_path)
+            sheet = wb.worksheets[3]
+            for row in sheet.iter_rows(values_only=True):
+                row_data = ', '.join(map(str, row))
+                bot.send_message(message.chat.id, row_data)
+        except Exception as e:
+            bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
+
 
 
 
