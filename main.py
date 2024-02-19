@@ -83,34 +83,51 @@ def site(message):
 def site(message):
     webbrowser.open('https://drive.google.com/drive/u/0/folders/1e7p3FlCashIPPDcno7_iMhC-huw7ogFL?q=sharedwith:public%20parent:1e7p3FlCashIPPDcno7_iMhC-huw7ogFL')
 
+
 @bot.message_handler()
 def help(message):
+    ukr_comands = {'<em>самарі</em>': 'розповім що вмію',
+                    '<em>навчання</em>':  'розповім де вчився',
+                    '<em>досвід</em>': 'розповім свою професійну історію',
+                    '<em>контакти</em>':  'як зі мною звязатись',
+                    '<em>скачати</em>': 'Підготую документ для скачування'
+    }
+    eng_comands = {'<em>/summary</em>': 'describe my abbilities',
+                   '<em>/academic</em>': 'tell about my academic history',
+                   '<em>/experience</em>': 'tell you my сareer пrowth',
+                   '<em>/contact</em>': 'how to contack with me',
+                   '<em>/export</em>': 'prepare document for download'
+    }
+        
     if message.text.lower() == 'допомога':
         bot.send_message(message.chat.id, '<b>За допомогою цих фраз я...</b>', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>самарі</em> - розповім що вмію', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>навчання</em> - розповім де вчився', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>досвід</em> - розповім свою професійну історію', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>контакти</em> - як зі мною звязатись', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>скачати</em> - Підготую документ для скачування', parse_mode='html')
+        for command, description in ukr_comands.items():
+            bot.send_message(message.chat.id, f"<b>{command}</b>: {description}", parse_mode='html')
     
     elif message.text.lower() == 'assistance':
         bot.send_message(message.chat.id, '<b>By using this comands I will ...</b>', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/summary</em> - describe my abbilities', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/academic</em> - tell about my academic history', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/experience</em> - tell you my сareer пrowth', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/contact</em> - how to contack with me', parse_mode='html')
-        bot.send_message(message.chat.id, '<em>/export</em> - prepare document for download', parse_mode='html')
+        for command, description in eng_comands.items():
+            bot.send_message(message.chat.id, f"<b>{command}</b>: {description}", parse_mode='html')
+
+
 
     elif message.text.lower() == 'самарі':
         file_path = Path(__file__).parent / "infoua.xlsx"
         try:
             wb = openpyxl.load_workbook(file_path)
             sheet = wb.worksheets[0]
+            all_rows_data = []  # Створюємо пустий список для зберігання даних з кожного рядка
+
             for row in sheet.iter_rows(values_only=True):
-                row_data = ', '.join(map(str, row))
-                bot.send_message(message.chat.id, row_data)
+                row_data = list(row)  # Конвертуємо кортеж у список
+                all_rows_data.append(row_data)  # Додаємо список до загального списку
+
+    # Відправляємо загальний список з даними у Telegram
+            for row_data in all_rows_data:
+                bot.send_message(message.chat.id, ', '.join(map(str, row_data)))
+        
         except Exception as e:
-            bot.send_message(message.chat.id, f"An error occurred: {str(e)}")
+            bot.send_message(message.chat.id, f"Виникла помилка: {str(e)}")
 
     elif message.text.lower() == 'навчання':
         file_path = Path(__file__).parent / "infoua.xlsx"
